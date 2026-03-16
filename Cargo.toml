@@ -4,5 +4,7 @@ version = "0.1.0"
 edition = "2024"
 
 [dependencies]
-bindgen = "0.72.1"
+
+[build-dependencies]
 cmake = "0.1.57"
+bindgen = "0.72.1"
