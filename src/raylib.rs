@@ -7,109 +7,97 @@ mod ffi {
 
 pub use ffi::Color;
 
-mod api {
-    use super::*;
-
-    pub fn init_window(width: i32, height: i32, title: &str) {
-        unsafe {
-            ffi::InitWindow(
-                width,
-                height,
-                CString::new(title).unwrap().as_ptr() as *const c_char,
-            );
-        }
+pub fn init_window(width: i32, height: i32, title: &str) {
+    unsafe {
+        ffi::InitWindow(
+            width,
+            height,
+            CString::new(title).unwrap().as_ptr() as *const c_char,
+        );
     }
+}
 
-    pub fn window_should_close() -> bool {
-        unsafe { ffi::WindowShouldClose() }
+pub fn window_should_close() -> bool {
+    unsafe { ffi::WindowShouldClose() }
+}
+
+pub fn close_window() {
+    unsafe { ffi::CloseWindow() }
+}
+
+pub fn is_window_ready() -> bool {
+    unsafe { ffi::IsWindowReady() }
+}
+
+pub fn begin_drawing() {
+    unsafe { ffi::BeginDrawing() }
+}
+
+pub fn end_drawing() {
+    unsafe { ffi::EndDrawing() }
+}
+
+pub fn clear_background(color: Color) {
+    unsafe { ffi::ClearBackground(color) }
+}
+
+pub fn draw_rectangle(x: i32, y: i32, width: i32, height: i32, color: Color) {
+    unsafe {
+        ffi::DrawRectangle(x, y, width, height, color);
     }
+}
 
-    pub fn close_window() {
-        unsafe { ffi::CloseWindow() }
+pub fn draw_rectangle_lines(x: i32, y: i32, width: i32, height: i32, color: Color) {
+    unsafe {
+        ffi::DrawRectangleLines(x, y, width, height, color);
     }
+}
 
-    pub fn is_window_ready() -> bool {
-        unsafe { ffi::IsWindowReady() }
+pub fn draw_text<T: Into<Vec<u8>>>(text: T, x: i32, y: i32, font_size: i32, color: Color) {
+    unsafe {
+        ffi::DrawText(
+            CString::new(text).unwrap().as_ptr() as *const c_char,
+            x,
+            y,
+            font_size,
+            color,
+        );
     }
+}
 
-    pub fn begin_drawing() {
-        unsafe { ffi::BeginDrawing() }
-    }
+pub fn draw_centered_text<T: Into<Vec<u8>>>(text: T, x: i32, y: i32, font_size: i32, color: Color) {
+    let text: Vec<u8> = text.into();
+    let text_size = measure_text(text.clone(), font_size);
+    draw_text(text, x - text_size / 2, y, font_size, color);
+}
 
-    pub fn end_drawing() {
-        unsafe { ffi::EndDrawing() }
-    }
+pub fn get_frame_time() -> f32 {
+    unsafe { ffi::GetFrameTime() }
+}
 
-    pub fn clear_background(color: Color) {
-        unsafe { ffi::ClearBackground(color) }
-    }
+pub fn get_time() -> f64 {
+    unsafe { ffi::GetTime() }
+}
 
-    pub fn draw_rectangle(x: i32, y: i32, width: i32, height: i32, color: Color) {
-        unsafe {
-            ffi::DrawRectangle(x, y, width, height, color);
-        }
-    }
-
-    pub fn draw_rectangle_lines(x: i32, y: i32, width: i32, height: i32, color: Color) {
-        unsafe {
-            ffi::DrawRectangleLines(x, y, width, height, color);
-        }
-    }
-
-    pub fn draw_text<T: Into<Vec<u8>>>(text: T, x: i32, y: i32, font_size: i32, color: Color) {
-        unsafe {
-            ffi::DrawText(
-                CString::new(text).unwrap().as_ptr() as *const c_char,
-                x,
-                y,
-                font_size,
-                color,
-            );
-        }
-    }
-
-    pub fn draw_centered_text<T: Into<Vec<u8>>>(
-        text: T,
-        x: i32,
-        y: i32,
-        font_size: i32,
-        color: Color,
-    ) {
-        let text: Vec<u8> = text.into();
-        let text_size = measure_text(text.clone(), font_size);
-        draw_text(text, x - text_size / 2, y, font_size, color);
-    }
-
-    pub fn get_frame_time() -> f32 {
-        unsafe { ffi::GetFrameTime() }
-    }
-
-    pub fn get_time() -> f64 {
-        unsafe { ffi::GetTime() }
-    }
-
-    pub fn is_key_down(key: KeyboardKey) -> bool {
-        unsafe {
-            match key {
-                KeyboardKey::KeyUp => ffi::IsKeyDown(ffi::KeyboardKey_KEY_UP as c_int),
-                KeyboardKey::KeyDown => ffi::IsKeyDown(ffi::KeyboardKey_KEY_DOWN as c_int),
-                KeyboardKey::KeyLeft => ffi::IsKeyDown(ffi::KeyboardKey_KEY_LEFT as c_int),
-                KeyboardKey::KeyRight => ffi::IsKeyDown(ffi::KeyboardKey_KEY_RIGHT as c_int),
-            }
-        }
-    }
-
-    pub fn measure_text<T: Into<Vec<u8>>>(text: T, font_size: i32) -> i32 {
-        unsafe {
-            ffi::MeasureText(
-                CString::new(text).unwrap().as_ptr() as *const c_char,
-                font_size,
-            )
+pub fn is_key_down(key: KeyboardKey) -> bool {
+    unsafe {
+        match key {
+            KeyboardKey::KeyUp => ffi::IsKeyDown(ffi::KeyboardKey_KEY_UP as c_int),
+            KeyboardKey::KeyDown => ffi::IsKeyDown(ffi::KeyboardKey_KEY_DOWN as c_int),
+            KeyboardKey::KeyLeft => ffi::IsKeyDown(ffi::KeyboardKey_KEY_LEFT as c_int),
+            KeyboardKey::KeyRight => ffi::IsKeyDown(ffi::KeyboardKey_KEY_RIGHT as c_int),
         }
     }
 }
 
-pub use api::*;
+pub fn measure_text<T: Into<Vec<u8>>>(text: T, font_size: i32) -> i32 {
+    unsafe {
+        ffi::MeasureText(
+            CString::new(text).unwrap().as_ptr() as *const c_char,
+            font_size,
+        )
+    }
+}
 
 #[derive(Clone, Copy, PartialEq, Eq)]
 #[repr(usize)]
@@ -141,25 +129,5 @@ impl Color {
         let b = ((color >> 8) & 0xFF) as u8;
         let a = (color & 0xFF) as u8;
         Self { r, g, b, a }
-    }
-}
-
-pub struct Window;
-
-impl Window {
-    pub fn new(width: i32, height: i32, title: &str) -> Self {
-        api::init_window(width, height, title);
-
-        Self {}
-    }
-
-    pub fn should_close(&self) -> bool {
-        api::window_should_close()
-    }
-}
-
-impl Drop for Window {
-    fn drop(&mut self) {
-        api::close_window();
     }
 }

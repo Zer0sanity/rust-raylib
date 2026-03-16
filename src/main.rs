@@ -1,6 +1,8 @@
-use raylib::raylib;
+mod raylib;
+mod window;
+
 use raylib::Color;
-use raylib::Window;
+use window::Window;
 
 const SCREEN_WIDTH: i32 = 600;
 const SCREEN_HEIGHT: i32 = 600;
