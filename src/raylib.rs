@@ -1,7 +1,8 @@
+use crate::{camera::Camera3D, vector::Vec3};
 use std::ffi::{c_char, c_int, CString};
 
 #[allow(warnings, unused, clippy::approx_constant)]
-mod ffi {
+pub mod ffi {
     include!(concat!(env!("OUT_DIR"), "/raylib_bindings.rs"));
 }
 
@@ -96,6 +97,36 @@ pub fn measure_text<T: Into<Vec<u8>>>(text: T, font_size: i32) -> i32 {
             CString::new(text).unwrap().as_ptr() as *const c_char,
             font_size,
         )
+    }
+}
+
+pub fn begin_mode_3d(camera: &mut Camera3D) {
+    unsafe {
+        ffi::BeginMode3D((*camera).into());
+    }
+}
+
+pub fn draw_cube(position: Vec3<f32>, width: f32, height: f32, length: f32, color: Color) {
+    unsafe {
+        ffi::DrawCube(position.into(), width, height, length, color);
+    }
+}
+
+pub fn draw_cube_wires(position: Vec3<f32>, width: f32, height: f32, length: f32, color: Color) {
+    unsafe {
+        ffi::DrawCubeWires(position.into(), width, height, length, color);
+    }
+}
+
+pub fn draw_grid(slices: i32, spacing: f32) {
+    unsafe {
+        ffi::DrawGrid(slices, spacing);
+    }
+}
+
+pub fn end_mode_3d() {
+    unsafe {
+        ffi::EndMode3D();
     }
 }
 
