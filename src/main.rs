@@ -34,7 +34,7 @@ fn main() {
         45.0,
     );
 
-    let cube_position = Vec3 {
+    let mut cube_position = Vec3 {
         x: 0.0,
         y: 0.0,
         z: 0.0,
@@ -42,7 +42,14 @@ fn main() {
 
     // <esc> will set this to true
     while !window.should_close() {
+        let delta = raylib::get_mouse_delta();
+
+        cube_position.x += 0.01 * delta.x;
+        cube_position.y += 0.01 * -delta.y;
+
         raylib::begin_drawing();
+
+        raylib::draw_text(format!("delta: {}", delta), 0, 0, 16, Color::BLUE);
 
         raylib::clear_background(Color::BLACK);
 

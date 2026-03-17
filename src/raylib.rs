@@ -1,4 +1,7 @@
-use crate::{camera::Camera3D, vector::Vec3};
+use crate::{
+    camera::Camera3D,
+    vector::{Vec2, Vec3},
+};
 use std::ffi::{c_char, c_int, CString};
 
 #[allow(warnings, unused, clippy::approx_constant)]
@@ -128,6 +131,10 @@ pub fn end_mode_3d() {
     unsafe {
         ffi::EndMode3D();
     }
+}
+
+pub fn get_mouse_delta() -> Vec2<f32> {
+    unsafe { ffi::GetMouseDelta().into() }
 }
 
 #[derive(Clone, Copy, PartialEq, Eq)]
