@@ -1,6 +1,6 @@
 use std::fmt::{self, Display};
 
-use crate::raylib::ffi::{Vector2, Vector3};
+use super::bindings::ffi::{Vector2, Vector3};
 
 #[derive(Clone, Copy, Debug, Hash, PartialEq, PartialOrd, Eq, Ord)]
 pub struct Vec2<T> {

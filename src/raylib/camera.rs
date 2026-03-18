@@ -1,5 +1,5 @@
-use crate::raylib::ffi;
-use crate::vector::Vec3;
+use super::bindings::ffi;
+use super::vector::Vec3;
 use std::mem;
 
 #[repr(C)]

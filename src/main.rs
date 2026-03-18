@@ -1,13 +1,6 @@
-mod camera;
 mod raylib;
-mod vector;
-mod window;
 
-use raylib::Color;
-use vector::Vec3;
-use window::Window;
-
-use crate::camera::Camera3D;
+use crate::raylib::{camera::Camera3D, color::Color, input, vector::Vec3, window::Window};
 
 const SCREEN_WIDTH: i32 = 600;
 const SCREEN_HEIGHT: i32 = 600;
@@ -42,31 +35,25 @@ fn main() {
 
     // <esc> will set this to true
     while !window.should_close() {
-        let delta = raylib::get_mouse_delta();
+        let delta = input::get_mouse_delta();
 
         cube_position.x += 0.01 * delta.x;
         cube_position.y += 0.01 * -delta.y;
 
-        raylib::begin_drawing();
+        let ctx = window.drawing_context();
 
-        raylib::draw_text(format!("delta: {}", delta), 0, 0, 16, Color::BLUE);
+        ctx.clear_background(&Color::BLACK);
 
-        raylib::clear_background(Color::BLACK);
+        ctx.draw_text(format!("delta: {}", delta), 0, 0, 16, &Color::BLUE);
 
-        raylib::begin_mode_3d(&mut camera);
+        let ctx3d = ctx.drawing_context_3d(&mut camera);
 
-        raylib::draw_cube(cube_position, 2.0, 2.0, 2.0, Color::RED);
+        ctx3d.draw_cube(cube_position, 2.0, 2.0, 2.0, &Color::RED);
 
-        raylib::draw_cube_wires(cube_position, 2.0, 2.0, 2.0, Color::GREEN);
+        ctx3d.draw_cube_wires(cube_position, 2.0, 2.0, 2.0, &Color::GREEN);
 
-        raylib::draw_grid(GRID_SIZE, 1.0);
-
-        raylib::end_mode_3d();
-
-        raylib::end_drawing();
+        ctx3d.draw_grid(GRID_SIZE, 1.0);
     }
-
-    raylib::close_window();
 }
 
 // Local Variables:
