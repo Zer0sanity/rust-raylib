@@ -20,7 +20,7 @@ impl From<Vector2> for Vec2<f32> {
     }
 }
 
-impl Display for Vec2<f32> {
+impl<T: Display> Display for Vec2<T> {
     fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
         write!(f, "x: {}, y: {}", self.x, self.y)
     }
@@ -40,6 +40,22 @@ impl From<Vec3<f32>> for Vector3 {
             y: v.y,
             z: v.z,
         }
+    }
+}
+
+impl From<Vector3> for Vec3<f32> {
+    fn from(v: Vector3) -> Vec3<f32> {
+        Vec3 {
+            x: v.x,
+            y: v.y,
+            z: v.z,
+        }
+    }
+}
+
+impl<T: Display> Display for Vec3<T> {
+    fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
+        write!(f, "x: {}, y: {}, x: {}", self.x, self.y, self.z)
     }
 }
 

@@ -37,14 +37,17 @@ fn main() {
     while !window.should_close() {
         let delta = input::get_mouse_delta();
 
-        cube_position.x += 0.01 * delta.x;
-        cube_position.y += 0.01 * -delta.y;
+        let mouse_position = input::get_mouse_position();
+        let ray = input::get_screen_to_world_ray(mouse_position, &camera);
+
+        cube_position.x += -delta.x / SCREEN_WIDTH as f32;
+        cube_position.y += -delta.y / SCREEN_HEIGHT as f32;
 
         let ctx = window.drawing_context();
 
         ctx.clear_background(&Color::BLACK);
 
-        ctx.draw_text(format!("delta: {}", delta), 0, 0, 16, &Color::BLUE);
+        ctx.draw_text(format!("ray: {}", cube_position), 0, 0, 16, &Color::BLUE);
 
         let ctx3d = ctx.drawing_context_3d(&mut camera);
 

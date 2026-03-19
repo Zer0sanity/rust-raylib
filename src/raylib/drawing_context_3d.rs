@@ -6,7 +6,7 @@ use super::vector::Vec3;
 pub struct DrawingContext3D;
 
 impl DrawingContext3D {
-    pub fn new(camera: &mut Camera3D) -> Self {
+    pub fn new(camera: &Camera3D) -> Self {
         unsafe {
             ffi::BeginMode3D((*camera).into());
         }

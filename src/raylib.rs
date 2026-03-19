@@ -5,5 +5,6 @@ pub mod drawing_context;
 pub mod drawing_context_3d;
 pub mod helpers;
 pub mod input;
+pub mod ray;
 pub mod vector;
 pub mod window;
