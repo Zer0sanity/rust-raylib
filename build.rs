@@ -9,6 +9,38 @@ fn main() {
 
     let bindings = bindgen::Builder::default()
         .header("raylib/src/raylib.h")
+        // window
+        .allowlist_function("InitWindow")
+        .allowlist_function("IsWindowReady")
+        .allowlist_function("WindowShouldClose")
+        .allowlist_function("CloseWindow")
+        // drawing 2d
+        .allowlist_function("BeginDrawing")
+        .allowlist_function("EndDrawing")
+        .allowlist_function("ClearBackground")
+        .allowlist_function("DrawText")
+        .allowlist_function("MeasureText")
+        .allowlist_function("DrawRectangle")
+        .allowlist_function("DrawRectangleLines")
+        // drawing 3d
+        .allowlist_function("BeginMode3D")
+        .allowlist_function("EndMode3D")
+        .allowlist_function("DrawGrid")
+        .allowlist_function("DrawCube")
+        .allowlist_function("DrawCubeWires")
+        .allowlist_function("DrawSphere")
+        .allowlist_function("DrawSphereWires")
+        // camera
+        .allowlist_type("CameraProjection")
+        // input
+        .allowlist_function("IsKeyDown")
+        .allowlist_type("KeyboardKey")
+        .allowlist_function("GetMouseDelta")
+        .allowlist_function("GetMousePosition")
+        // misc
+        .allowlist_function("GetFrameTime")
+        .allowlist_function("GetScreenToWorldRay")
+        .allowlist_function("GetTime")
         .generate()
         .expect("Unable to generate bindings");
 
@@ -37,5 +69,5 @@ fn main() {
     }
 }
 // Local Variables:
-// jinx-local-words: "CMake Xcursor Xinerama Xrandr dl pthread raylib rustc src"
+// jinx-local-words: "CMake Init Xcursor Xinerama Xrandr dl pthread raylib rustc src"
 // End:
