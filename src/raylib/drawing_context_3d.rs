@@ -40,6 +40,25 @@ impl DrawingContext3D {
         }
     }
 
+    pub fn draw_sphere(&self, position: Vec3<f32>, radius: f32, color: &Color) {
+        unsafe {
+            ffi::DrawSphere(position.into(), radius, color.into());
+        }
+    }
+
+    pub fn draw_sphere_wires(
+        &self,
+        position: Vec3<f32>,
+        radius: f32,
+        rings: i32,
+        slices: i32,
+        color: &Color,
+    ) {
+        unsafe {
+            ffi::DrawSphereWires(position.into(), radius, rings, slices, color.into());
+        }
+    }
+
     pub fn draw_grid(&self, slices: i32, spacing: f32) {
         unsafe {
             ffi::DrawGrid(slices, spacing);
