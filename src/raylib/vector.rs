@@ -1,6 +1,6 @@
 use std::fmt::{self, Display};
 
-use super::bindings::ffi::{Vector2, Vector3};
+use super::ffi::{Vector2, Vector3};
 
 #[derive(Clone, Copy, Debug, Hash, PartialEq, PartialOrd, Eq, Ord)]
 pub struct Vec2<T> {
@@ -60,6 +60,7 @@ impl<T: Display> Display for Vec3<T> {
 }
 
 #[derive(Clone, Copy, Debug, Hash, PartialEq, PartialOrd, Eq, Ord)]
+#[allow(unused)]
 pub struct Vec4<T> {
     pub x: T,
     pub y: T,

@@ -2,7 +2,7 @@ mod drawing;
 mod raylib;
 use crate::{
     drawing::{cube::Cube, graphical_object::GraphicalObject, sphere::Sphere},
-    raylib::{camera::Camera3D, color::Color, input, vector::Vec3, window::Window},
+    raylib::{Camera3D, Color, Vec3, Window},
 };
 
 const SCREEN_WIDTH: i32 = 1024;
@@ -10,7 +10,7 @@ const SCREEN_HEIGHT: i32 = 768;
 const GRID_SIZE: i32 = 10;
 
 fn main() {
-    let window = Window::new(SCREEN_WIDTH, SCREEN_HEIGHT, "hello world");
+    let window = Window::new(SCREEN_WIDTH, SCREEN_HEIGHT, "hello world").unwrap();
     let mut camera = Camera3D::perspective(
         Vec3 {
             x: 4.0,
@@ -62,8 +62,8 @@ fn main() {
     graphical_objects.push(GraphicalObject::Sphere(sphere));
 
     while !window.should_close() {
-        let mouse_position = input::get_mouse_position();
-        let ray = input::get_screen_to_world_ray(mouse_position, &camera);
+        let mouse_position = window.get_mouse_position();
+        let ray = window.get_screen_to_world_ray(mouse_position, &camera);
 
         let plane_y = 0.0;
         let t = (plane_y - ray.position.y) / ray.direction.y;

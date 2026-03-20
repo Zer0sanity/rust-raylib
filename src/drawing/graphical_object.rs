@@ -1,6 +1,6 @@
 use crate::{
     drawing::{cube::Cube, drawable::Drawable, sphere::Sphere},
-    raylib::{drawing_context_3d::DrawingContext3D, ray::Ray},
+    raylib::{DrawingContext3D, Ray},
 };
 
 pub enum GraphicalObject {

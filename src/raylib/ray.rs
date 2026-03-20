@@ -1,4 +1,4 @@
-use super::bindings::ffi;
+use super::ffi;
 use super::vector::Vec3;
 use std::fmt::{self, Display};
 

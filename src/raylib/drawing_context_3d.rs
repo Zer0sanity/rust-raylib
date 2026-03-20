@@ -1,16 +1,18 @@
-use super::bindings::ffi;
-use super::camera::Camera3D;
-use super::color::Color;
-use super::vector::Vec3;
+use super::{
+    ffi::{BeginMode3D, DrawCube, DrawCubeWires, DrawGrid, DrawSphere, DrawSphereWires, EndMode3D},
+    Camera3D, Color, Vec3,
+};
 
+#[non_exhaustive]
 pub struct DrawingContext3D;
 
+#[allow(unused)]
 impl DrawingContext3D {
     pub fn new(camera: &Camera3D) -> Self {
         unsafe {
-            ffi::BeginMode3D((*camera).into());
+            BeginMode3D((*camera).into());
         }
-        Self {}
+        Self
     }
 
     pub fn draw_cube(
@@ -23,7 +25,7 @@ impl DrawingContext3D {
         color: &Color,
     ) {
         unsafe {
-            ffi::DrawCube(position.into(), width, height, length, color.into());
+            DrawCube(position.into(), width, height, length, color.into());
         }
     }
 
@@ -36,13 +38,13 @@ impl DrawingContext3D {
         color: &Color,
     ) {
         unsafe {
-            ffi::DrawCubeWires(position.into(), width, height, length, color.into());
+            DrawCubeWires(position.into(), width, height, length, color.into());
         }
     }
 
     pub fn draw_sphere(&self, position: Vec3<f32>, radius: f32, color: &Color) {
         unsafe {
-            ffi::DrawSphere(position.into(), radius, color.into());
+            DrawSphere(position.into(), radius, color.into());
         }
     }
 
@@ -55,13 +57,13 @@ impl DrawingContext3D {
         color: &Color,
     ) {
         unsafe {
-            ffi::DrawSphereWires(position.into(), radius, rings, slices, color.into());
+            DrawSphereWires(position.into(), radius, rings, slices, color.into());
         }
     }
 
     pub fn draw_grid(&self, slices: i32, spacing: f32) {
         unsafe {
-            ffi::DrawGrid(slices, spacing);
+            DrawGrid(slices, spacing);
         }
     }
 }
@@ -69,7 +71,7 @@ impl DrawingContext3D {
 impl Drop for DrawingContext3D {
     fn drop(&mut self) {
         unsafe {
-            ffi::EndMode3D();
+            EndMode3D();
         }
     }
 }

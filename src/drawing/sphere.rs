@@ -1,6 +1,6 @@
 use crate::{
     drawing::drawable::Drawable,
-    raylib::{color::Color, drawing_context_3d::DrawingContext3D, vector::Vec3},
+    raylib::{Color, DrawingContext3D, Vec3},
 };
 
 pub struct Sphere {

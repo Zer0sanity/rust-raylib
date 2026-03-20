@@ -1,4 +1,4 @@
-pub use super::bindings::ffi;
+use super::ffi;
 
 pub struct Color {
     pub r: u8,
